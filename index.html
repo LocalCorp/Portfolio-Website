@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Artem Petrishchev – Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:       #FEFCE8;
+      --cream-dark:  #FEF9C3;
+      --amber:       #D97706;
+      --amber-dark:  #B45309;
+      --amber-light: #FDE68A;
+      --text:        #1C1917;
+      --text-muted:  #57534E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(254, 252, 232, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--amber-light);
+      padding: 0.9rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .logo {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--amber-dark);
+    }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 3px;
+    }
+    nav ul a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--amber);
+      border-radius: 1px;
+      transition: width 0.25s ease;
+    }
+    nav ul a:hover { color: var(--amber); }
+    nav ul a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    /* dot grid */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--amber-light) 1.5px, transparent 1.5px);
+      background-size: 30px 30px;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    /* center glow that masks dots */
+    #hero::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 720px;
+      height: 480px;
+      background: radial-gradient(ellipse, var(--cream) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 680px; position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--amber-light);
+      color: var(--amber-dark);
+      font-size: 0.71rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0.35rem 1.2rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(217,119,6,0.25);
+    }
+    .hero-content h1 {
+      font-family: 'Merriweather', serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.1rem;
+    }
+    .hero-content h1 span { color: var(--amber); }
+    .hero-content p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      max-width: 520px;
+      margin: 0 auto 2.2rem;
+    }
+    .hero-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.76rem 1.9rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: #fff;
+      border-color: var(--amber);
+      box-shadow: 0 4px 14px rgba(217,119,6,0.38);
+    }
+    .btn-primary:hover {
+      background: var(--amber-dark);
+      border-color: var(--amber-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(217,119,6,0.42);
+    }
+    .btn-outline { background: transparent; color: var(--amber); border-color: var(--amber); }
+    .btn-outline:hover { background: var(--amber-light); transform: translateY(-2px); }
+
+    /* ── SECTION BASE ── */
+    section { padding: 5.5rem 2rem; }
+    .container { max-width: 980px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.69rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.4rem;
+    }
+    .section-title {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .section-divider {
+      width: 44px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-light));
+      border-radius: 2px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--cream); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+    .about-text strong { color: var(--text); }
+    .edu-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--amber-light);
+      color: var(--amber-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      border: 1px solid rgba(217,119,6,0.2);
+    }
+    .skills-block { display: flex; flex-direction: column; gap: 1.4rem; }
+    .skills-category h4 {
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--amber-dark);
+      margin-bottom: 0.5rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      background: var(--amber-light);
+      color: var(--amber-dark);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.23rem 0.62rem;
+      border-radius: 5px;
+      border: 1px solid rgba(217,119,6,0.15);
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--cream-dark); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--cream);
+      border: 1px solid var(--amber-light);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(217,119,6,0.15);
+      border-color: var(--amber);
+    }
+    .project-viz {
+      background: var(--cream-dark);
+      border-bottom: 1px solid var(--amber-light);
+      padding: 0.75rem;
+      height: 195px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-viz svg { width: 100%; height: 100%; }
+    .project-body {
+      padding: 1.4rem 1.5rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-num {
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.35rem;
+    }
+    .project-body h3 {
+      font-family: 'Merriweather', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .project-body p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+    .project-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.85rem;
+    }
+    .project-stat {
+      background: var(--amber);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.22rem 0.62rem;
+      border-radius: 5px;
+      letter-spacing: 0.2px;
+    }
+    .project-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+    .project-tool {
+      background: #F5F5F4;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.18rem 0.48rem;
+      border-radius: 4px;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--cream); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--amber), var(--amber-light));
+    }
+    .timeline-item {
+      padding-left: 2.2rem;
+      position: relative;
+      margin-bottom: 2.8rem;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -6px;
+      top: 7px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--amber);
+      border: 3px solid var(--cream);
+      box-shadow: 0 0 0 2px var(--amber-light);
+    }
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-bottom: 0.15rem;
+    }
+    .timeline-company { font-weight: 700; color: var(--amber-dark); font-size: 0.88rem; }
+    .timeline-date { font-size: 0.78rem; color: var(--text-muted); }
+    .timeline-role {
+      font-family: 'Merriweather', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    .timeline-item ul { list-style: none; }
+    .timeline-item ul li {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      padding-left: 1.1rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+      line-height: 1.55;
+    }
+    .timeline-item ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--cream-dark); }
+    .contact-wrapper { display: flex; justify-content: center; }
+    .contact-card {
+      background: var(--cream);
+      border: 1px solid var(--amber-light);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(217,119,6,0.08);
+    }
+    .contact-card h3 {
+      font-family: 'Merriweather', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .contact-card > p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 2rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.2s;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+    }
+    .contact-link:hover {
+      color: var(--amber-dark);
+      background: var(--amber-light);
+      border-color: rgba(217,119,6,0.2);
+    }
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--amber-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.75rem 2rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--amber-light);
+    }
+
+    /* ── FADE-IN ANIMATION ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      nav ul { gap: 1.1rem; }
+      nav ul a { font-size: 0.75rem; letter-spacing: 0; text-transform: none; }
+      .section-title { font-size: 1.6rem; }
+      .project-viz { height: 175px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="logo">Artem Petrishchev</span>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <span class="hero-tag">Senior QA Specialist &amp; Data Scientist</span>
+      <h1>Hi, I'm <span>Artem</span><br/>Petrishchev.</h1>
+      <p>I build quality-driven software systems and apply machine learning &amp; statistical analysis to solve real-world problems.</p>
+      <div class="hero-links">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Background &amp; Skills</h2>
+      <div class="section-divider"></div>
+
+      <div class="about-grid fade-in">
+        <div class="about-text">
+          <p>I'm a <strong>Senior QA Specialist</strong> at LearnFormula with a H.B.Sc in <strong>Statistics, Machine Learning, and Data Science</strong> from the University of Toronto.</p>
+          <p>I specialize in building robust test automation frameworks with Playwright, designing CI/CD pipelines, and applying statistical methods to real-world data challenges.</p>
+          <p>My academic background in ML and data science gives me a unique edge in quality assurance — I don't just find bugs, I analyze patterns and build systems that prevent them.</p>
+          <br/>
+          <span class="edu-badge">🎓 University of Toronto &nbsp;·&nbsp; Admission Scholarship Recipient</span>
+        </div>
+
+        <div class="skills-block">
+          <div class="skills-category">
+            <h4>Automation &amp; QA</h4>
+            <div class="tags">
+              <span class="tag">Playwright</span>
+              <span class="tag">CI/CD</span>
+              <span class="tag">API Testing</span>
+              <span class="tag">Regression Testing</span>
+              <span class="tag">GitActions</span>
+            </div>
+          </div>
+          <div class="skills-category">
+            <h4>AI / ML &amp; Data</h4>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">R</span>
+              <span class="tag">Logistic Regression</span>
+              <span class="tag">Naïve Bayes</span>
+              <span class="tag">k-NN</span>
+              <span class="tag">MATLAB</span>
+              <span class="tag">PowerBI</span>
+            </div>
+          </div>
+          <div class="skills-category">
+            <h4>Programming</h4>
+            <div class="tags">
+              <span class="tag">Java</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">SQL</span>
+              <span class="tag">HTML / CSS</span>
+              <span class="tag">C</span>
+            </div>
+          </div>
+          <div class="skills-category">
+            <h4>Cloud &amp; Monitoring</h4>
+            <div class="tags">
+              <span class="tag">AWS ECS</span>
+              <span class="tag">CloudWatch</span>
+              <span class="tag">Sentry</span>
+              <span class="tag">Azure</span>
+              <span class="tag">GCP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-label">Academic Work</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-divider"></div>
+
+      <div class="projects-grid">
+
+        <!-- ── PROJECT 1: Credit Risk ── -->
+        <div class="project-card fade-in">
+          <div class="project-viz">
+            <!--
+              Grouped bar chart — actual data from STAC51 Case Study (group_30_report.pdf)
+              Age groups vs credit risk (conditional proportions):
+                19–25: bad ~40%, good ~60%
+                25–40: bad ~25%, good ~75%
+                41+:   bad ~20%, good ~80%
+              Chart y-range: y=24 (100%) to y=118 (0%), 94px total height
+            -->
+            <svg viewBox="0 0 310 178" xmlns="http://www.w3.org/2000/svg">
+              <text x="155" y="13" text-anchor="middle" font-family="Lato,sans-serif" font-size="10" font-weight="700" fill="#1C1917">Credit Risk by Age Group</text>
+              <!-- Axes -->
+              <line x1="46" y1="22" x2="46"  y2="118" stroke="#D6D3D1" stroke-width="1.2"/>
+              <line x1="46" y1="118" x2="300" y2="118" stroke="#D6D3D1" stroke-width="1.2"/>
+              <!-- Gridlines -->
+              <line x1="46" y1="71" x2="300" y2="71" stroke="#E7E5E4" stroke-dasharray="4,3" stroke-width="1"/>
+              <line x1="46" y1="47" x2="300" y2="47" stroke="#E7E5E4" stroke-dasharray="4,3" stroke-width="1"/>
+              <!-- Y labels -->
+              <text x="42" y="25"  text-anchor="end" font-family="Lato,sans-serif" font-size="7.5" fill="#78716C">100%</text>
+              <text x="42" y="74"  text-anchor="end" font-family="Lato,sans-serif" font-size="7.5" fill="#78716C">50%</text>
+              <text x="42" y="121" text-anchor="end" font-family="Lato,sans-serif" font-size="7.5" fill="#78716C">0%</text>
+              <!-- Group 1: 19–25 | bad 40% → 38px bar, good 60% → 56px bar -->
+              <rect x="62"  y="80"  width="22" height="38" fill="#D97706" rx="3"/>
+              <rect x="87"  y="62"  width="22" height="56" fill="#FDE68A" stroke="#D97706" stroke-width="0.7" rx="3"/>
+              <!-- Group 2: 25–40 | bad 25% → 24px, good 75% → 70px -->
+              <rect x="148" y="94"  width="22" height="24" fill="#D97706" rx="3"/>
+              <rect x="173" y="48"  width="22" height="70" fill="#FDE68A" stroke="#D97706" stroke-width="0.7" rx="3"/>
+              <!-- Group 3: 41+  | bad 20% → 19px, good 80% → 75px -->
+              <rect x="234" y="99"  width="22" height="19" fill="#D97706" rx="3"/>
+              <rect x="259" y="43"  width="22" height="75" fill="#FDE68A" stroke="#D97706" stroke-width="0.7" rx="3"/>
+              <!-- X labels -->
+              <text x="87"  y="131" text-anchor="middle" font-family="Lato,sans-serif" font-size="8.5" fill="#57534E">19–25</text>
+              <text x="172" y="131" text-anchor="middle" font-family="Lato,sans-serif" font-size="8.5" fill="#57534E">25–40</text>
+              <text x="258" y="131" text-anchor="middle" font-family="Lato,sans-serif" font-size="8.5" fill="#57534E">41+</text>
+              <!-- Legend -->
+              <rect x="82"  y="145" width="10" height="8" fill="#D97706" rx="2"/>
+              <text x="95"  y="153" font-family="Lato,sans-serif" font-size="8" fill="#57534E">High Risk</text>
+              <rect x="168" y="145" width="10" height="8" fill="#FDE68A" stroke="#D97706" stroke-width="0.6" rx="2"/>
+              <text x="181" y="153" font-family="Lato,sans-serif" font-size="8" fill="#57534E">Low Risk</text>
+              <!-- Source -->
+              <text x="155" y="170" text-anchor="middle" font-family="Lato,sans-serif" font-size="7" fill="#A8A29E">Source: STAC51 Case Study Report · group_30_report.pdf</text>
+            </svg>
+          </div>
+          <div class="project-body">
+            <span class="project-num">Project 01</span>
+            <h3>Credit Risk Case Study – Categorical Data Analysis</h3>
+            <p>Simulated a bank-level credit scoring system using 1,000 observations and 20 predictors. Performed EDA with correlation matrices and conditional proportion plots. Ran stepwise AIC model selection (forward, backward, both — all converged), then validated with the Hosmer-Lemeshow goodness-of-fit test and ROC curve analysis.</p>
+            <div class="project-stats">
+              <span class="project-stat">90% Test Accuracy</span>
+              <span class="project-stat">ROC AUC 0.844</span>
+            </div>
+            <div class="project-tools">
+              <span class="project-tool">R</span>
+              <span class="project-tool">RStudio</span>
+              <span class="project-tool">tidyverse</span>
+              <span class="project-tool">caret</span>
+              <span class="project-tool">pROC</span>
+              <span class="project-tool">ggplot2</span>
+              <span class="project-tool">corrplot</span>
+              <span class="project-tool">gridExtra</span>
+              <span class="project-tool">jtools</span>
+              <span class="project-tool">ResourceSelection</span>
+              <span class="project-tool">Logistic Regression</span>
+              <span class="project-tool">Stepwise AIC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── PROJECT 2: ML Text Classification ── -->
+        <div class="project-card fade-in">
+          <div class="project-viz">
+            <!--
+              Classification pipeline diagram:
+              5 news category pills → 3 algorithm boxes → accuracy badge
+            -->
+            <svg viewBox="0 0 310 178" xmlns="http://www.w3.org/2000/svg">
+              <text x="155" y="13" text-anchor="middle" font-family="Lato,sans-serif" font-size="10" font-weight="700" fill="#1C1917">News Article Classification</text>
+              <!-- Row 1 of category pills -->
+              <rect x="6"   y="22" width="84"  height="20" fill="#FDE68A" rx="10"/>
+              <text x="48"  y="36" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" font-weight="700" fill="#B45309">Business</text>
+              <rect x="98"  y="22" width="114" height="20" fill="#FDE68A" rx="10"/>
+              <text x="155" y="36" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" font-weight="700" fill="#B45309">Entertainment</text>
+              <rect x="220" y="22" width="84"  height="20" fill="#FDE68A" rx="10"/>
+              <text x="262" y="36" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" font-weight="700" fill="#B45309">Politics</text>
+              <!-- Row 2 of category pills (centred) -->
+              <rect x="52"  y="49" width="90"  height="20" fill="#FDE68A" rx="10"/>
+              <text x="97"  y="63" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" font-weight="700" fill="#B45309">Sport</text>
+              <rect x="150" y="49" width="110" height="20" fill="#FDE68A" rx="10"/>
+              <text x="205" y="63" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" font-weight="700" fill="#B45309">Technology</text>
+              <!-- Arrow down -->
+              <line x1="155" y1="75" x2="155" y2="88" stroke="#D97706" stroke-width="1.5"/>
+              <polygon points="155,92 150,86 160,86" fill="#D97706"/>
+              <!-- 3 algorithm boxes -->
+              <rect x="8"   y="95" width="86" height="40" rx="8" fill="#FEF9C3" stroke="#D97706" stroke-width="1"/>
+              <text x="51"  y="112" text-anchor="middle" font-family="Lato,sans-serif" font-size="8.5" font-weight="700" fill="#1C1917">Naïve Bayes</text>
+              <text x="51"  y="126" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" fill="#57534E">Gaussian NB</text>
+              <rect x="112" y="95" width="86" height="40" rx="8" fill="#FEF9C3" stroke="#D97706" stroke-width="1"/>
+              <text x="155" y="112" text-anchor="middle" font-family="Lato,sans-serif" font-size="8.5" font-weight="700" fill="#1C1917">Gaussian</text>
+              <text x="155" y="126" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" fill="#57534E">Class Cond.</text>
+              <rect x="216" y="95" width="86" height="40" rx="8" fill="#FEF9C3" stroke="#D97706" stroke-width="1"/>
+              <text x="259" y="112" text-anchor="middle" font-family="Lato,sans-serif" font-size="8.5" font-weight="700" fill="#1C1917">k-NN</text>
+              <text x="259" y="126" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" fill="#57534E">k-Nearest Nbr</text>
+              <!-- Accuracy badge -->
+              <rect x="92" y="146" width="126" height="22" rx="11" fill="#D97706"/>
+              <text x="155" y="161" text-anchor="middle" font-family="Lato,sans-serif" font-size="9" font-weight="700" fill="#fff">Best Accuracy: 75%</text>
+              <!-- Source -->
+              <text x="155" y="176" text-anchor="middle" font-family="Lato,sans-serif" font-size="7" fill="#A8A29E">Multi-class NLP Classification · Python</text>
+            </svg>
+          </div>
+          <div class="project-body">
+            <span class="project-num">Project 02</span>
+            <h3>Machine Learning – Text Classification</h3>
+            <p>Implemented and benchmarked multiple classifiers to automatically label news articles into five categories: business, entertainment, politics, sport, and technology. Trained and compared Naïve Bayes, Gaussian class conditional, and k-NN algorithms, analyzing precision and recall performance across all labels.</p>
+            <div class="project-stats">
+              <span class="project-stat">Up to 75% Accuracy</span>
+              <span class="project-stat">5 Categories</span>
+              <span class="project-stat">3 Algorithms</span>
+            </div>
+            <div class="project-tools">
+              <span class="project-tool">Python</span>
+              <span class="project-tool">Naïve Bayes</span>
+              <span class="project-tool">Gaussian</span>
+              <span class="project-tool">k-NN</span>
+              <span class="project-tool">NLP</span>
+              <span class="project-tool">Multi-class Classification</span>
+              <span class="project-tool">Text Feature Extraction</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── PROJECT 3: UFC Causal Inference ── -->
+        <div class="project-card fade-in">
+          <div class="project-viz">
+            <!--
+              Donut chart at 70% + two stat panels
+              cx=80, cy=96, r=46
+              circumference = 2 * π * 46 ≈ 289.03
+              70% arc = 202.32 | 30% gap = 86.71
+              rotate(-90 80 96) to start from 12 o'clock
+            -->
+            <svg viewBox="0 0 310 178" xmlns="http://www.w3.org/2000/svg">
+              <text x="155" y="13" text-anchor="middle" font-family="Lato,sans-serif" font-size="10" font-weight="700" fill="#1C1917">Betting Model Performance</text>
+              <!-- Donut background ring -->
+              <circle cx="80" cy="96" r="46" fill="none" stroke="#FDE68A" stroke-width="18"/>
+              <!-- Donut 70% arc -->
+              <circle cx="80" cy="96" r="46" fill="none" stroke="#D97706" stroke-width="18"
+                stroke-dasharray="202.32 86.71"
+                stroke-linecap="round"
+                transform="rotate(-90 80 96)"/>
+              <!-- Center label -->
+              <text x="80" y="91" text-anchor="middle" font-family="Lato,sans-serif" font-size="22" font-weight="700" fill="#1C1917">70%</text>
+              <text x="80" y="105" text-anchor="middle" font-family="Lato,sans-serif" font-size="8" fill="#57534E">Success Rate</text>
+              <!-- Stat card 1 -->
+              <rect x="150" y="30"  width="150" height="50" rx="9" fill="#FDE68A" opacity="0.65"/>
+              <text x="163" y="52"  font-family="Lato,sans-serif" font-size="20" font-weight="700" fill="#D97706">5,000</text>
+              <text x="163" y="65"  font-family="Lato,sans-serif" font-size="8"   fill="#57534E">Fights Web-Scraped</text>
+              <text x="163" y="75"  font-family="Lato,sans-serif" font-size="7"   fill="#78716C">from UFC stats page</text>
+              <!-- Stat card 2 -->
+              <rect x="150" y="92"  width="150" height="60" rx="9" fill="#FDE68A" opacity="0.65"/>
+              <text x="163" y="110" font-family="Lato,sans-serif" font-size="8.5" font-weight="700" fill="#1C1917">Key Risk Factors Found</text>
+              <text x="163" y="124" font-family="Lato,sans-serif" font-size="8"   fill="#57534E">· Age of the fighter</text>
+              <text x="163" y="138" font-family="Lato,sans-serif" font-size="8"   fill="#57534E">· Prior KO/TKO losses</text>
+              <!-- Method badge -->
+              <rect x="6"   y="152" width="136" height="17" rx="8" fill="none" stroke="#D97706" stroke-width="1"/>
+              <text x="74"  y="164" text-anchor="middle" font-family="Lato,sans-serif" font-size="7.5" fill="#B45309" font-weight="700">Propensity Score Matching</text>
+              <!-- Source -->
+              <text x="225" y="168" text-anchor="middle" font-family="Lato,sans-serif" font-size="7" fill="#A8A29E">STAD81 · Causal Inference</text>
+            </svg>
+          </div>
+          <div class="project-body">
+            <span class="project-num">Project 03</span>
+            <h3>UFC Causal Inference – Effect of KO/TKO Losses</h3>
+            <p>Web-scraped 5,000 recent UFC fights, cleaned and organized data by date and weight class. Applied propensity score matching and regression to determine that age and prior KO/TKO losses are the most significant causal factors influencing future stoppages. Validated findings with a predictive betting model.</p>
+            <div class="project-stats">
+              <span class="project-stat">70% Betting Accuracy</span>
+              <span class="project-stat">5,000 Fights</span>
+            </div>
+            <div class="project-tools">
+              <span class="project-tool">R</span>
+              <span class="project-tool">RStudio</span>
+              <span class="project-tool">ggplot2</span>
+              <span class="project-tool">Web Scraping</span>
+              <span class="project-tool">Propensity Score Matching</span>
+              <span class="project-tool">Causal Inference</span>
+              <span class="project-tool">Regression Analysis</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <p class="section-label">Career</p>
+      <h2 class="section-title">Professional Experience</h2>
+      <div class="section-divider"></div>
+
+      <div class="timeline">
+
+        <div class="timeline-item fade-in">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header">
+            <span class="timeline-company">LearnFormula — Markham, ON</span>
+            <span class="timeline-date">June 2025 – Present</span>
+          </div>
+          <div class="timeline-role">Senior QA Specialist</div>
+          <ul>
+            <li>Own release readiness evaluation; provide final sign-off for all web and mobile deployments</li>
+            <li>Built scalable Playwright CI/CD pipelines — cut manual testing by 20%, boosted release reliability by 35%</li>
+            <li>Implemented real-time monitoring (ECS, CloudWatch, Sentry, Clarity) enabling 40% faster incident resolution</li>
+            <li>Formalized defect severity criteria, regression scope, and release readiness thresholds team-wide</li>
+            <li>Oversaw parallel Android and iOS (React Native) release cycles, maintaining feature parity</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item fade-in">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header">
+            <span class="timeline-company">LearnFormula — Markham, ON</span>
+            <span class="timeline-date">Aug 2024 – June 2025</span>
+          </div>
+          <div class="timeline-role">QA Automation Engineer</div>
+          <ul>
+            <li>Engineered Playwright test scripts that expanded coverage by 60% and cut regression cycles by 50%</li>
+            <li>Uncovered 150+ defects pre-release across API, web, and React Native mobile layers</li>
+            <li>Delivered 500+ detailed test reports and actionable insights, laying the foundation for the QA process</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Let's Connect</p>
+      <h2 class="section-title">Get in Touch</h2>
+      <div class="section-divider"></div>
+
+      <div class="contact-wrapper">
+        <div class="contact-card fade-in">
+          <h3>Artem Petrishchev</h3>
+          <p>Open to opportunities in QA Engineering, Data Science, and ML roles.<br/>Feel free to reach out!</p>
+          <div class="contact-links">
+            <a href="mailto:artem.petri@hotmail.com" class="contact-link">
+              <span class="contact-icon">✉️</span>
+              artem.petri@hotmail.com
+            </a>
+            <a href="https://www.linkedin.com/in/artem-petrishchev-/" target="_blank" class="contact-link">
+              <span class="contact-icon">💼</span>
+              LinkedIn Profile
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Artem Petrishchev &nbsp;·&nbsp; Toronto, ON</p>
+  </footer>
+
+  <script>
+    // Fade-in on scroll using IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
