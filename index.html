@@ -45,6 +45,42 @@
       font-weight: 700;
       font-size: 1.05rem;
       color: var(--amber-dark);
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    nav .logo:hover { color: var(--amber); }
+
+    /* ── SKIP TO CONTENT ── */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      background: var(--amber);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0.75rem; }
+
+    /* ── FOCUS RINGS (keyboard nav) ── */
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--amber-dark);
+      outline-offset: 3px;
+    }
+    .contact-link:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 2px;
     }
     nav ul { list-style: none; display: flex; gap: 2rem; }
     nav ul a {
@@ -71,6 +107,8 @@
     }
     nav ul a:hover { color: var(--amber); }
     nav ul a:hover::after { width: 100%; }
+    nav ul a.active { color: var(--amber); }
+    nav ul a.active::after { width: 100%; }
 
     /* ── HERO ── */
     #hero {
@@ -475,10 +513,13 @@
 </head>
 <body>
 
+  <!-- SKIP TO CONTENT -->
+  <a href="#hero" class="skip-link">Skip to main content</a>
+
   <!-- NAV -->
-  <nav>
-    <span class="logo">Artem Petrishchev</span>
-    <ul>
+  <nav role="navigation" aria-label="Main navigation">
+    <a href="#hero" class="logo" aria-label="Artem Petrishchev – back to top">Artem Petrishchev</a>
+    <ul role="list">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#experience">Experience</a></li>
@@ -487,7 +528,7 @@
   </nav>
 
   <!-- HERO -->
-  <section id="hero">
+  <section id="hero" tabindex="-1">
     <div class="hero-content">
       <span class="hero-tag">Senior QA Specialist &amp; Data Scientist</span>
       <h1>Hi, I'm <span>Artem</span><br/>Petrishchev.</h1>
@@ -510,7 +551,7 @@
         <div class="about-text">
           <p>I'm a <strong>Senior QA Specialist</strong> at LearnFormula with a H.B.Sc in <strong>Statistics, Machine Learning, and Data Science</strong> from the University of Toronto.</p>
           <p>I specialize in building robust test automation frameworks with Playwright, designing CI/CD pipelines, and applying statistical methods to real-world data challenges.</p>
-          <p>My academic background in ML and data science gives me a unique edge in quality assurance — I don't just find bugs, I analyze patterns and build systems that prevent them.</p>
+          <p>My academic background in ML and data science gives me a unique edge in quality assurance, bridging the gap between statistical thinking and engineering to build systems that are reliable by design.</p>
           <br/>
           <span class="edu-badge">🎓 University of Toronto &nbsp;·&nbsp; Admission Scholarship Recipient</span>
         </div>
@@ -623,7 +664,6 @@
             <p>Simulated a bank-level credit scoring system using 1,000 observations and 20 predictors. Performed EDA with correlation matrices and conditional proportion plots. Ran stepwise AIC model selection (forward, backward, both — all converged), then validated with the Hosmer-Lemeshow goodness-of-fit test and ROC curve analysis.</p>
             <div class="project-stats">
               <span class="project-stat">90% Test Accuracy</span>
-              <span class="project-stat">ROC AUC 0.844</span>
             </div>
             <div class="project-tools">
               <span class="project-tool">R</span>
@@ -690,7 +730,6 @@
             <div class="project-stats">
               <span class="project-stat">Up to 75% Accuracy</span>
               <span class="project-stat">5 Categories</span>
-              <span class="project-stat">3 Algorithms</span>
             </div>
             <div class="project-tools">
               <span class="project-tool">Python</span>
@@ -822,12 +861,12 @@
           <h3>Artem Petrishchev</h3>
           <p>Open to opportunities in QA Engineering, Data Science, and ML roles.<br/>Feel free to reach out!</p>
           <div class="contact-links">
-            <a href="mailto:artem.petri@hotmail.com" class="contact-link">
-              <span class="contact-icon">✉️</span>
+            <a href="mailto:artem.petri@hotmail.com" class="contact-link" aria-label="Send email to artem.petri@hotmail.com">
+              <span class="contact-icon" aria-hidden="true">✉️</span>
               artem.petri@hotmail.com
             </a>
-            <a href="https://www.linkedin.com/in/artem-petrishchev-/" target="_blank" class="contact-link">
-              <span class="contact-icon">💼</span>
+            <a href="https://www.linkedin.com/in/artem-petrishchev-/" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Visit LinkedIn profile (opens in new tab)">
+              <span class="contact-icon" aria-hidden="true">💼</span>
               LinkedIn Profile
             </a>
           </div>
@@ -842,16 +881,30 @@
   </footer>
 
   <script>
-    // Fade-in on scroll using IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
+    // Fade-in on scroll
+    const fadeObserver = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
-          observer.unobserve(e.target);
+          fadeObserver.unobserve(e.target);
         }
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+    // Active nav link highlighting
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav ul a');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + e.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => navObserver.observe(s));
   </script>
 
 </body>
